@@ -45,7 +45,7 @@ p{
   margin-top:15px;
 }
 
-/* Yes / No buttons */
+/* Buttons */
 .button-group button{
   margin:15px;
   padding:14px 25px;
@@ -144,6 +144,12 @@ p{
   transform:scale(1.1);
   background:#8000ff;
 }
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .popup { width:90%; padding:20px; }
+  .splash { width:120px; }
+}
 </style>
 </head>
 
@@ -179,16 +185,17 @@ p{
   <button onclick="closePopup()">Close</button>
 </div>
 
+<script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
 // SoundCloud Track URL
-const trackURL = "https://soundcloud.com/rida-mansoor/balam-pichkari-yeh-jawani-hai?in=shristi-singh-569773335/sets/holi-songs&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing";
+const trackURL = "https://soundcloud.com/rida-mansoor/balam-pichkari-yeh-jawani-hai?in=shristi-singh-569773335/sets/holi-songs";
 
 // REAL Holi Splash PNGs
 const splashImages = [
 "https://images.unsplash.com/photo-1603228254119-e6a4d095dc59?q=80&w=871",
 "https://images.unsplash.com/photo-1610313898425-a5c637a940db?q=80&w=394",
 "https://plus.unsplash.com/premium_photo-1664304095595-e428558e8161?q=80&w=870",
-"https://plus.unsplash.com/premium_photo-1682089821031-05d132d2be0e?q=80&w=870",
+"https://plus.unsplash.com/premium_photo-1682089821031-05d132d2be0?q=80&w=870",
 "https://images.unsplash.com/photo-1551757891-24a8dabd2708?q=80&w=870",
 "https://images.unsplash.com/photo-1527075240784-552cddfbb143?q=80&w=876",
 "https://images.unsplash.com/photo-1503875154399-95d2b151e3b0?q=80&w=387"
@@ -204,24 +211,27 @@ for(let i=0;i<8;i++){
   document.body.appendChild(img);
 }
 
-// NO button dodging effect
+// NO button dodging effect (works on touch & mouse)
 const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", function(){
+function dodgeButton(){
   const container = document.getElementById("mainContainer");
   const maxX = container.offsetWidth - noBtn.offsetWidth;
   const maxY = container.offsetHeight - noBtn.offsetHeight;
   noBtn.style.position = "relative";
   noBtn.style.left = Math.random() * maxX - noBtn.offsetLeft + "px";
   noBtn.style.top = Math.random() * maxY - noBtn.offsetTop + "px";
-});
+}
+noBtn.addEventListener("mouseover", dodgeButton); // desktop
+noBtn.addEventListener("touchstart", dodgeButton); // mobile
 
 // YES button click
-document.getElementById("yesBtn").addEventListener("click", startCelebration);
+const yesBtn = document.getElementById("yesBtn");
+const widgetIframe = document.getElementById('soundcloudPlayer');
+const widget = SC.Widget(widgetIframe);
 
-function startCelebration(){
+yesBtn.addEventListener("click", () => {
   // Play SoundCloud
-  document.getElementById("soundcloudPlayer").src = 
-    "https://w.soundcloud.com/player/?url=" + trackURL + "&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false";
+  widget.load(trackURL, {auto_play:true});
 
   // Hide initial container
   document.getElementById("mainContainer").style.display = "none";
@@ -247,7 +257,7 @@ function startCelebration(){
   }
 
   // Color Explosion
-  for(let i=0;i<100;i++){
+  for(let i=0;i<50;i++){ // reduced for mobile
     let color=document.createElement("div");
     color.style.position="fixed";
     color.style.width="15px";
@@ -259,19 +269,18 @@ function startCelebration(){
     color.style.transition="1s";
     document.body.appendChild(color);
 
-    setTimeout(()=>{
+    setTimeout(()=> {
       color.style.transform=`translate(${(Math.random()-0.5)*800}px, ${(Math.random()-0.5)*800}px)`;
       color.style.opacity="0";
     },10);
 
     setTimeout(()=>color.remove(),1200);
   }
-}
+});
 
 function closePopup(){
   document.getElementById("popup").style.display="none";
 }
 </script>
-
 </body>
 </html>
