@@ -18,8 +18,19 @@ body{
   text-align:center;
   background: linear-gradient(-45deg,#ff416c,#ff4b2b,#ffcc70,#24c6dc,#a18cd1);
   background-size:600% 600%;
-  animation:gradient 10s ease infinite;
+  animation:gradient 10s ease infinite, zoomBg 20s ease-in-out infinite alternate;
   color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+/* Background cinematic zoom */
+@keyframes zoomBg{
+  0% {transform: scale(1);}
+  50% {transform: scale(1.08);}
+  100% {transform: scale(1);}
 }
 
 @keyframes gradient{
@@ -31,12 +42,11 @@ body{
 .container{
   position:relative;
   z-index:10;
-  top:25vh;
   padding:20px;
 }
 
 h1{
-  font-size:clamp(30px,6vw,60px);
+  font-size:clamp(28px,6vw,60px);
   text-shadow:0 0 20px yellow;
 }
 
@@ -45,9 +55,9 @@ p{
   margin-top:15px;
 }
 
-/* Yes / No buttons */
+/* Buttons */
 .button-group button{
-  margin:15px;
+  margin:12px;
   padding:14px 25px;
   border:none;
   border-radius:30px;
@@ -67,6 +77,7 @@ p{
 .splash{
   position:absolute;
   width:200px;
+  max-width:25vw;
   opacity:0.85;
   animation:floatUp linear infinite;
 }
@@ -76,62 +87,128 @@ p{
   to{transform:translateY(-20vh);}
 }
 
-/* Popup */
+/* ================= POPUP ================= */
 .popup{
   position:fixed;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%) scale(0);
-  background:white;
-  color:#ff4081;
-  padding:30px;
-  border-radius:25px;
-  display:none;
-  z-index:20;
-  box-shadow:0 0 50px hotpink;
+  width:90%;
+  max-width:700px;
+  padding:35px;
+  border-radius:30px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:50;
   text-align:center;
   overflow:hidden;
-  animation:popupShow 0.8s forwards;
+  backdrop-filter: blur(18px);
+  background: rgba(255,255,255,0.15);
+  border: 3px solid rgba(255,255,255,0.3);
+  box-shadow: 0 0 40px rgba(255,0,150,0.6);
 }
 
-@keyframes popupShow {
+/* Continuous dancing animation */
+.popup.show{
+  animation: popupZoom 0.8s forwards, popupDance 4s ease-in-out infinite;
+}
+
+@keyframes popupZoom {
   0% {transform:translate(-50%, -50%) scale(0);}
-  60% {transform:translate(-50%, -50%) scale(1.1);}
+  60% {transform:translate(-50%, -50%) scale(1.08);}
   100% {transform:translate(-50%, -50%) scale(1);}
 }
 
-/* Rainbow animated title */
-@keyframes rainbowText {
-  0% {color: #ff0000;}
-  15% {color: #ff7f00;}
-  30% {color: #ffff00;}
-  45% {color: #00ff00;}
-  60% {color: #0000ff;}
-  75% {color: #4b0082;}
-  90% {color: #8b00ff;}
-  100% {color: #ff0000;}
+@keyframes popupDance {
+  0%   { transform: translate(-50%, -50%) rotate(0deg);}
+  10%  { transform: translate(-49%, -51%) rotate(-1deg);}
+  20%  { transform: translate(-51%, -49%) rotate(1deg);}
+  30%  { transform: translate(-50%, -52%) rotate(-1deg);}
+  40%  { transform: translate(-52%, -50%) rotate(1deg);}
+  50%  { transform: translate(-50%, -50%) rotate(0deg);}
+  60%  { transform: translate(-48%, -51%) rotate(1deg);}
+  70%  { transform: translate(-51%, -48%) rotate(-1deg);}
+  80%  { transform: translate(-50%, -50%) rotate(1deg);}
+  90%  { transform: translate(-49%, -49%) rotate(-1deg);}
+  100% { transform: translate(-50%, -50%) rotate(0deg);}
 }
 
+/* Animated glowing border */
+.popup::before{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:35px;
+  background: linear-gradient(45deg, red, orange, yellow, green, blue, violet, red);
+  background-size:400%;
+  z-index:-1;
+  animation: borderGlow 6s linear infinite;
+}
+
+@keyframes borderGlow{
+  0%{background-position:0%;}
+  100%{background-position:400%;}
+}
+
+/* Rainbow text inside popup */
 .popup h2{
   font-size:2rem;
-  animation: rainbowText 3s infinite;
+  text-shadow:0 0 15px #ff00ff;
+  animation: rainbowText 3s linear infinite;
 }
 
-/* Floating emoji confetti inside popup */
-.emoji {
-  position: absolute;
-  font-size: 24px;
-  animation: floatEmoji linear forwards;
+@keyframes rainbowText {
+  0%{color:#ff0000;}
+  15%{color:#ff7f00;}
+  30%{color:#ffff00;}
+  45%{color:#00ff00;}
+  60%{color:#0000ff;}
+  75%{color:#4b0082;}
+  90%{color:#8b00ff;}
+  100%{color:#ff0000;}
 }
 
-@keyframes floatEmoji {
-  0% {opacity:1; transform: translateY(0) rotate(0deg);}
-  100% {opacity:0; transform: translateY(-200px) rotate(360deg);}
+/* Photo Gallery */
+.photo-gallery{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.photo-gallery img{
+  width:95px;
+  height:95px;
+  object-fit:cover;
+  border-radius:15px;
+  transition:0.4s;
+}
+
+.photo-gallery img:hover{
+  transform:scale(1.2) rotate(5deg);
+}
+
+/* Color Pop Particles */
+.color-pop{
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  opacity:0.9;
+  animation: popFloat 3s linear forwards;
+}
+
+@keyframes popFloat{
+  0%{transform:translateY(0) scale(1); opacity:1;}
+  100%{transform:translateY(-150px) scale(0.5); opacity:0;}
 }
 
 .popup button{
   background:#ff4081;
-  margin-top:15px;
+  margin-top:20px;
   padding:12px 25px;
   border:none;
   border-radius:20px;
@@ -144,20 +221,25 @@ p{
   transform:scale(1.1);
   background:#8000ff;
 }
+
+@media (max-width: 600px) {
+  .popup { width:90%; padding:20px; }
+  .splash { width:120px; }
+  h1 { font-size:clamp(24px,6vw,48px); }
+  p { font-size:clamp(14px,4vw,20px); }
+}
 </style>
 </head>
 
 <body>
 
-<!-- SoundCloud Player Embed (Hidden) -->
+<!-- SoundCloud Player -->
 <iframe 
-  id="soundcloudPlayer"
+  id="soundcloudPlayer" 
   width="0" 
   height="0" 
-  scrolling="no" 
-  frameborder="no" 
-  allow="autoplay"
-  src="">
+  allow="autoplay" 
+  src="https://w.soundcloud.com/player/?url=https://soundcloud.com/rida-mansoor/balam-pichkari-yeh-jawani-hai">
 </iframe>
 
 <div class="container" id="mainContainer">
@@ -169,21 +251,29 @@ p{
   </div>
 </div>
 
+<!-- POPUP -->
 <div class="popup" id="popup">
-  <h2>💌 I knew you wanted it! 💖</h2>
-  <p>
-    Happy Holi! 🌸🌈💃<br>
-    May your life be filled with love ❤️, laughter 😂, and colors everywhere 🌈🎨✨<br>
-    Enjoy every splash of joy and every beautiful moment 💖💫
-  </p>
+  <h2>Happy Holi Mr. Engineer! 🌈</h2>
+  <p>May your life be filled with vibrant colors, beautiful memories and endless happiness!</p>
+
+  <div class="photo-gallery">
+    <img src="https://images.unsplash.com/photo-1527075240784-552cddfbb143?q=80&w=400">
+    <img src="https://images.unsplash.com/photo-1551757891-24a8dabd2708?q=80&w=400">
+    <img src="https://images.unsplash.com/photo-1503875154399-95d2b151e3b0?q=80&w=400">
+    <img src="https://images.unsplash.com/photo-1603228254119-e6a4d095dc59?q=80&w=400">
+    <img src="https://images.unsplash.com/photo-1610313898425-a5c637a940db?q=80&w=400">
+    <img src="https://plus.unsplash.com/premium_photo-1664304095595-e428558e8161?q=80&w=400">
+  </div>
+
   <button onclick="closePopup()">Close</button>
 </div>
 
+<script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
-// SoundCloud Track URL
-const trackURL = "https://soundcloud.com/rida-mansoor/balam-pichkari-yeh-jawani-hai?in=shristi-singh-569773335/sets/holi-songs&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing";
+// SoundCloud
+const widget = SC.Widget(document.getElementById("soundcloudPlayer"));
 
-// REAL Holi Splash PNGs
+// Floating splashes
 const splashImages = [
 "https://images.unsplash.com/photo-1603228254119-e6a4d095dc59?q=80&w=871",
 "https://images.unsplash.com/photo-1610313898425-a5c637a940db?q=80&w=394",
@@ -194,7 +284,6 @@ const splashImages = [
 "https://images.unsplash.com/photo-1503875154399-95d2b151e3b0?q=80&w=387"
 ];
 
-// Create floating splashes
 for(let i=0;i<8;i++){
   let img=document.createElement("img");
   img.src=splashImages[Math.floor(Math.random()*splashImages.length)];
@@ -204,72 +293,43 @@ for(let i=0;i<8;i++){
   document.body.appendChild(img);
 }
 
-// NO button dodging effect
+// No button dodge
 const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", function(){
-  const container = document.getElementById("mainContainer");
-  const maxX = container.offsetWidth - noBtn.offsetWidth;
-  const maxY = container.offsetHeight - noBtn.offsetHeight;
-  noBtn.style.position = "relative";
-  noBtn.style.left = Math.random() * maxX - noBtn.offsetLeft + "px";
-  noBtn.style.top = Math.random() * maxY - noBtn.offsetTop + "px";
+function dodgeButton(){
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
+}
+noBtn.addEventListener("mouseover", dodgeButton);
+noBtn.addEventListener("touchstart", dodgeButton);
+
+// YES button
+const yesBtn = document.getElementById("yesBtn");
+const popup = document.getElementById("popup");
+
+yesBtn.addEventListener("click", () => {
+  widget.play(); // Play SoundCloud
+  document.getElementById("mainContainer").style.display = "none";
+  popup.style.display = "flex";
+  popup.classList.add("show");
+
+  // Color pop particles
+  for(let i=0;i<50;i++){
+    const pop = document.createElement("div");
+    pop.classList.add("color-pop");
+    pop.style.left = Math.random()*100 + "%";
+    pop.style.top = Math.random()*100 + "%";
+    pop.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    pop.style.animationDuration = (2 + Math.random()*2) + "s";
+    popup.appendChild(pop);
+    setTimeout(()=>pop.remove(),3000);
+  }
 });
 
-// YES button click
-document.getElementById("yesBtn").addEventListener("click", startCelebration);
-
-function startCelebration(){
-  // Play SoundCloud
-  document.getElementById("soundcloudPlayer").src = 
-    "https://w.soundcloud.com/player/?url=" + trackURL + "&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false";
-
-  // Hide initial container
-  document.getElementById("mainContainer").style.display = "none";
-
-  // Show popup
-  const popup = document.getElementById("popup");
-  popup.style.display = "block";
-  popup.style.transform = "translate(-50%, -50%) scale(0)";
-  setTimeout(()=>popup.style.transform = "translate(-50%, -50%) scale(1)", 50);
-
-  // Floating emojis inside popup
-  const emojis = ["🌸","🌈","💖","🎨","💃","✨","😍"];
-  for(let i=0;i<15;i++){
-    const e = document.createElement("div");
-    e.classList.add("emoji");
-    e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-    e.style.left = Math.random()*80 + 10 + "%";
-    e.style.top = Math.random()*80 + 10 + "%";
-    e.style.fontSize = Math.random()*24 + 16 + "px";
-    e.style.animationDuration = (2+Math.random()*3) + "s";
-    popup.appendChild(e);
-    setTimeout(()=> e.remove(),4000);
-  }
-
-  // Color Explosion
-  for(let i=0;i<100;i++){
-    let color=document.createElement("div");
-    color.style.position="fixed";
-    color.style.width="15px";
-    color.style.height="15px";
-    color.style.borderRadius="50%";
-    color.style.left="50%";
-    color.style.top="50%";
-    color.style.background=`hsl(${Math.random()*360},100%,50%)`;
-    color.style.transition="1s";
-    document.body.appendChild(color);
-
-    setTimeout(()=>{
-      color.style.transform=`translate(${(Math.random()-0.5)*800}px, ${(Math.random()-0.5)*800}px)`;
-      color.style.opacity="0";
-    },10);
-
-    setTimeout(()=>color.remove(),1200);
-  }
-}
-
 function closePopup(){
-  document.getElementById("popup").style.display="none";
+  popup.style.display="none";
 }
 </script>
 
