@@ -4,243 +4,96 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Holi 🌸</title>
-
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins', sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins', sans-serif;}
 
-body{
+body {
   overflow:hidden;
   text-align:center;
   background: linear-gradient(-45deg,#ff416c,#ff4b2b,#ffcc70,#24c6dc,#a18cd1);
   background-size:600% 600%;
-  animation:gradient 10s ease infinite, zoomBg 20s ease-in-out infinite alternate;
+  animation: gradient 10s ease infinite, zoomBg 20s ease-in-out infinite alternate;
   color:white;
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
+  flex-direction:column;
 }
 
 /* Background cinematic zoom */
-@keyframes zoomBg{
-  0% {transform: scale(1);}
-  50% {transform: scale(1.08);}
-  100% {transform: scale(1);}
-}
-
-@keyframes gradient{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
+@keyframes zoomBg {0%{transform:scale(1);}50%{transform:scale(1.08);}100%{transform:scale(1);}}
+@keyframes gradient {0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 
 .container{
-  position:relative;
-  z-index:10;
-  padding:20px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:10;
+  animation: dropFromTop 1.5s ease forwards;
+  position: relative;
+  top:-50vh;
+}
+@keyframes dropFromTop {
+  0% {top:-50vh; opacity:0;}
+  100% {top:0; opacity:1;}
 }
 
-h1{
-  font-size:clamp(28px,6vw,60px);
-  text-shadow:0 0 20px yellow;
-}
-
-p{
-  font-size:clamp(16px,3vw,22px);
-  margin-top:15px;
-}
-
-/* Buttons */
+h1{font-size:clamp(28px,6vw,60px); text-shadow:0 0 20px yellow;}
+p{font-size:clamp(16px,3vw,22px); margin-top:15px;}
 .button-group button{
-  margin:12px;
-  padding:14px 25px;
-  border:none;
-  border-radius:30px;
-  background:#ff0080;
-  color:white;
-  font-size:18px;
-  cursor:pointer;
-  transition:0.3s;
+  margin:12px; padding:14px 25px; border:none; border-radius:30px;
+  background:#ff0080; color:white; font-size:18px; cursor:pointer; transition:3s;
 }
+.button-group button:hover{transform:scale(1.1); background:#8000ff;}
 
-.button-group button:hover{
-  transform:scale(1.1);
-  background:#8000ff;
-}
+.splash{position:absolute;width:200px;max-width:25vw;opacity:0.85;animation:floatUp linear infinite;}
+@keyframes floatUp{from{transform:translateY(110vh);} to{transform:translateY(-20vh);}}
 
-/* Floating Splash Images */
-.splash{
-  position:absolute;
-  width:200px;
-  max-width:25vw;
-  opacity:0.85;
-  animation:floatUp linear infinite;
-}
-
-@keyframes floatUp{
-  from{transform:translateY(110vh);}
-  to{transform:translateY(-20vh);}
-}
-
-/* ================= POPUP ================= */
 .popup{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) scale(0);
-  width:90%;
-  max-width:700px;
-  padding:35px;
-  border-radius:30px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:50;
-  text-align:center;
-  overflow:hidden;
-  backdrop-filter: blur(18px);
-  background: rgba(255,255,255,0.15);
-  border: 3px solid rgba(255,255,255,0.3);
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0);
+  width:90%; max-width:700px; padding:35px;
+  border-radius:30px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; z-index:50; text-align:center;
+  overflow:hidden; backdrop-filter: blur(18px);
+  background: rgba(255,255,255,0.15); border: 3px solid rgba(255,255,255,0.3);
   box-shadow: 0 0 40px rgba(255,0,150,0.6);
 }
-
-/* Continuous dancing animation */
-.popup.show{
-  animation: popupZoom 0.8s forwards, popupDance 4s ease-in-out infinite;
+.popup.show{ animation: popupZoom 0.8s forwards, popupDance 4s ease-in-out infinite; }
+@keyframes popupZoom{0%{transform:translate(-50%,-50%) scale(0);}60%{transform:translate(-50%,-50%) scale(1.08);}100%{transform:translate(-50%,-50%) scale(1);}}
+@keyframes popupDance{
+  0%{transform:translate(-50%,-50%) rotate(0deg);}
+  10%{transform:translate(-49%,-51%) rotate(-1deg);}
+  20%{transform:translate(-51%,-49%) rotate(1deg);}
+  30%{transform:translate(-50%,-52%) rotate(-1deg);}
+  40%{transform:translate(-52%,-50%) rotate(1deg);}
+  50%{transform:translate(-50%,-50%) rotate(0deg);}
+  60%{transform:translate(-48%,-51%) rotate(1deg);}
+  70%{transform:translate(-51%,-48%) rotate(-1deg);}
+  80%{transform:translate(-50%,-50%) rotate(1deg);}
+  90%{transform:translate(-49%,-49%) rotate(-1deg);}
+  100%{transform:translate(-50%,-50%) rotate(0deg);}
 }
-
-@keyframes popupZoom {
-  0% {transform:translate(-50%, -50%) scale(0);}
-  60% {transform:translate(-50%, -50%) scale(1.08);}
-  100% {transform:translate(-50%, -50%) scale(1);}
-}
-
-@keyframes popupDance {
-  0%   { transform: translate(-50%, -50%) rotate(0deg);}
-  10%  { transform: translate(-49%, -51%) rotate(-1deg);}
-  20%  { transform: translate(-51%, -49%) rotate(1deg);}
-  30%  { transform: translate(-50%, -52%) rotate(-1deg);}
-  40%  { transform: translate(-52%, -50%) rotate(1deg);}
-  50%  { transform: translate(-50%, -50%) rotate(0deg);}
-  60%  { transform: translate(-48%, -51%) rotate(1deg);}
-  70%  { transform: translate(-51%, -48%) rotate(-1deg);}
-  80%  { transform: translate(-50%, -50%) rotate(1deg);}
-  90%  { transform: translate(-49%, -49%) rotate(-1deg);}
-  100% { transform: translate(-50%, -50%) rotate(0deg);}
-}
-
-/* Animated glowing border */
 .popup::before{
-  content:"";
-  position:absolute;
-  inset:-4px;
-  border-radius:35px;
+  content:""; position:absolute; inset:-4px; border-radius:35px;
   background: linear-gradient(45deg, red, orange, yellow, green, blue, violet, red);
-  background-size:400%;
-  z-index:-1;
-  animation: borderGlow 6s linear infinite;
+  background-size:400%; z-index:-1; animation:borderGlow 6s linear infinite;
 }
+@keyframes borderGlow{0%{background-position:0%;}100%{background-position:400%;}}
 
-@keyframes borderGlow{
-  0%{background-position:0%;}
-  100%{background-position:400%;}
+.popup h2{font-size:2rem;text-shadow:0 0 15px #ff00ff; animation: rainbowText 3s linear infinite;}
+@keyframes rainbowText{
+  0%{color:#ff0000;}15%{color:#ff7f00;}30%{color:#ffff00;}45%{color:#00ff00;}
+  60%{color:#0000ff;}75%{color:#4b0082;}90%{color:#8b00ff;}100%{color:#ff0000;}
 }
-
-/* Rainbow text inside popup */
-.popup h2{
-  font-size:2rem;
-  text-shadow:0 0 15px #ff00ff;
-  animation: rainbowText 3s linear infinite;
-}
-
-@keyframes rainbowText {
-  0%{color:#ff0000;}
-  15%{color:#ff7f00;}
-  30%{color:#ffff00;}
-  45%{color:#00ff00;}
-  60%{color:#0000ff;}
-  75%{color:#4b0082;}
-  90%{color:#8b00ff;}
-  100%{color:#ff0000;}
-}
-
-/* Photo Gallery */
-.photo-gallery{
-  display:flex;
-  gap:10px;
-  margin-top:20px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
-.photo-gallery img{
-  width:95px;
-  height:95px;
-  object-fit:cover;
-  border-radius:15px;
-  transition:0.4s;
-}
-
-.photo-gallery img:hover{
-  transform:scale(1.2) rotate(5deg);
-}
-
-/* Color Pop Particles */
-.color-pop{
-  position:absolute;
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  opacity:0.9;
-  animation: popFloat 3s linear forwards;
-}
-
-@keyframes popFloat{
-  0%{transform:translateY(0) scale(1); opacity:1;}
-  100%{transform:translateY(-150px) scale(0.5); opacity:0;}
-}
-
-.popup button{
-  background:#ff4081;
-  margin-top:20px;
-  padding:12px 25px;
-  border:none;
-  border-radius:20px;
-  font-size:16px;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.popup button:hover{
-  transform:scale(1.1);
-  background:#8000ff;
-}
-
-@media (max-width: 600px) {
-  .popup { width:90%; padding:20px; }
-  .splash { width:120px; }
-  h1 { font-size:clamp(24px,6vw,48px); }
-  p { font-size:clamp(14px,4vw,20px); }
-}
+.photo-gallery{display:flex;gap:10px;margin-top:20px;justify-content:center;flex-wrap:wrap;}
+.photo-gallery img{width:95px;height:95px;object-fit:cover;border-radius:15px;transition:0.4s;}
+.photo-gallery img:hover{transform:scale(1.2) rotate(5deg);}
+.color-pop{position:absolute;width:14px;height:14px;border-radius:50%;opacity:0.9;animation:popFloat 3s linear forwards;}
+@keyframes popFloat{0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-150px) scale(0.5);opacity:0;}}
+.popup button{background:#ff4081;margin-top:20px;padding:12px 25px;border:none;border-radius:20px;font-size:16px;cursor:pointer;transition:0.3s;}
+.popup button:hover{transform:scale(1.1);background:#8000ff;}
+@media(max-width:600px){.popup{width:90%;padding:20px;}.splash{width:120px;}h1{font-size:clamp(24px,6vw,48px);}p{font-size:clamp(14px,4vw,20px);}}
 </style>
 </head>
-
 <body>
-
-<!-- SoundCloud Player -->
-<iframe 
-  id="soundcloudPlayer" 
-  width="0" 
-  height="0" 
-  allow="autoplay" 
-  src="https://w.soundcloud.com/player/?url=https://soundcloud.com/rida-mansoor/balam-pichkari-yeh-jawani-hai">
-</iframe>
 
 <div class="container" id="mainContainer">
   <h1>🌈 Happy Holi 💖</h1>
@@ -251,40 +104,26 @@ p{
   </div>
 </div>
 
-<!-- POPUP -->
 <div class="popup" id="popup">
-  <h2>Happy Holi Mr. Engineer! 🌈</h2>
-  <p>May your life be filled with vibrant colors, beautiful memories and endless happiness!</p>
-
+  <h2>Happy Holi! 🌈</h2>
+  <p>May your life be filled with vibrant colors, memories & happiness!</p>
   <div class="photo-gallery">
     <img src="https://images.unsplash.com/photo-1527075240784-552cddfbb143?q=80&w=400">
     <img src="https://images.unsplash.com/photo-1551757891-24a8dabd2708?q=80&w=400">
-    <img src="https://images.unsplash.com/photo-1503875154399-95d2b151e3b0?q=80&w=400">
-    <img src="https://images.unsplash.com/photo-1603228254119-e6a4d095dc59?q=80&w=400">
-    <img src="https://images.unsplash.com/photo-1610313898425-a5c637a940db?q=80&w=400">
-    <img src="https://plus.unsplash.com/premium_photo-1664304095595-e428558e8161?q=80&w=400">
   </div>
-
   <button onclick="closePopup()">Close</button>
 </div>
 
-<script src="https://w.soundcloud.com/player/api.js"></script>
-<script>
-// SoundCloud
-const widget = SC.Widget(document.getElementById("soundcloudPlayer"));
+<!-- Silent trick for autoplay on mobile -->
+<audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop autoplay></audio>
 
+<script>
 // Floating splashes
 const splashImages = [
 "https://images.unsplash.com/photo-1603228254119-e6a4d095dc59?q=80&w=871",
-"https://images.unsplash.com/photo-1610313898425-a5c637a940db?q=80&w=394",
-"https://plus.unsplash.com/premium_photo-1664304095595-e428558e8161?q=80&w=870",
-"https://plus.unsplash.com/premium_photo-1682089821031-05d132d2be0e?q=80&w=870",
-"https://images.unsplash.com/photo-1551757891-24a8dabd2708?q=80&w=870",
-"https://images.unsplash.com/photo-1527075240784-552cddfbb143?q=80&w=876",
-"https://images.unsplash.com/photo-1503875154399-95d2b151e3b0?q=80&w=387"
+"https://images.unsplash.com/photo-1610313898425-a5c637a940db?q=80&w=394"
 ];
-
-for(let i=0;i<8;i++){
+for(let i=0;i<6;i++){
   let img=document.createElement("img");
   img.src=splashImages[Math.floor(Math.random()*splashImages.length)];
   img.classList.add("splash");
@@ -294,44 +133,44 @@ for(let i=0;i<8;i++){
 }
 
 // No button dodge
-const noBtn = document.getElementById("noBtn");
+const noBtn=document.getElementById("noBtn");
 function dodgeButton(){
-  const maxX = window.innerWidth - noBtn.offsetWidth;
-  const maxY = window.innerHeight - noBtn.offsetHeight;
-  noBtn.style.position = "absolute";
-  noBtn.style.left = Math.random() * maxX + "px";
-  noBtn.style.top = Math.random() * maxY + "px";
+  const maxX=window.innerWidth-noBtn.offsetWidth;
+  const maxY=window.innerHeight-noBtn.offsetHeight;
+  noBtn.style.position="absolute";
+  noBtn.style.left=Math.random()*maxX+"px";
+  noBtn.style.top=Math.random()*maxY+"px";
 }
 noBtn.addEventListener("mouseover", dodgeButton);
 noBtn.addEventListener("touchstart", dodgeButton);
 
 // YES button
-const yesBtn = document.getElementById("yesBtn");
-const popup = document.getElementById("popup");
+const yesBtn=document.getElementById("yesBtn");
+const popup=document.getElementById("popup");
+const bgMusic=document.getElementById("bgMusic");
 
-yesBtn.addEventListener("click", () => {
-  widget.play(); // Play SoundCloud
-  document.getElementById("mainContainer").style.display = "none";
-  popup.style.display = "flex";
+window.addEventListener('load', () => {
+  bgMusic.play().catch(()=>{}); // silent autoplay trick for mobile
+});
+
+yesBtn.addEventListener("click", ()=>{
+  document.getElementById("mainContainer").style.display="none";
+  popup.style.display="flex";
   popup.classList.add("show");
 
-  // Color pop particles
-  for(let i=0;i<50;i++){
-    const pop = document.createElement("div");
+  for(let i=0;i<30;i++){
+    const pop=document.createElement("div");
     pop.classList.add("color-pop");
-    pop.style.left = Math.random()*100 + "%";
-    pop.style.top = Math.random()*100 + "%";
-    pop.style.background = `hsl(${Math.random()*360},100%,50%)`;
-    pop.style.animationDuration = (2 + Math.random()*2) + "s";
+    pop.style.left=Math.random()*100+"%";
+    pop.style.top=Math.random()*100+"%";
+    pop.style.background=`hsl(${Math.random()*360},100%,50%)`;
+    pop.style.animationDuration=(2+Math.random()*2)+"s";
     popup.appendChild(pop);
     setTimeout(()=>pop.remove(),3000);
   }
 });
 
-function closePopup(){
-  popup.style.display="none";
-}
+function closePopup(){popup.style.display="none";}
 </script>
-
 </body>
 </html>
